@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  backend:
+    container_name: flask_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # set database, memcached etc credentials
+      DB_HOST: mysql
+      DB_NAME: crud
+      DB_USER: root
+      DB_PASSWORD: root
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app
+    links:
+      - mysql
+    depends_on:
+      - mysql
+  
+  mysql:
+    container_name: flask_db
+    image: mysql:5.7.22
+    restart: always
+    environment:
+      # credentials
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crud
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 3307:3306

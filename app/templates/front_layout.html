@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block title %} Flask CRUB {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="jumbotron p-3">
+       <h3> Manage Employees <a href = "{{ url_for('Index') }}" class="btn btn-success btn-xs float-right">Manage Employees</a></h3>
+    
+    <table class="table table-hover table-dark">
+ 
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+
+        {% for row in employees %}  <!-- Retrieveing all the data from the database -->
+        <tr>
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.phone}}</td>
+        </tr>
+        {% endfor %} <!-- Retrieving all data from the database -->
+
+    </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class="jumbotron p-3">
+       <h3> Manage Tasks <a href = "{{ url_for('Index_tasks') }}" class="btn btn-success btn-xs float-right">Manage Tasks</a></h3>
+
+    <table class="table table-hover table-dark">
+ 
+        <tr>
+            <th>ID</th>
+            <th>Text</th>
+            <th>Completed</th>
+            <th>Employee ID</th>
+        </tr>
+
+       {% for row in tasks %}  <!-- Retrieveing all the data from the database -->
+        <tr>
+            <td>{{row.id}}</td>
+            <td>{{row.text}}</td>
+            <td>{{row.completed}}</td>
+            <td>{{row.employee_id}}</td>
+        </tr>
+       {% endfor %} <!-- Retrieving all data from the database -->
+    </table>
+    </div>
+</div>
+{% endblock %}
