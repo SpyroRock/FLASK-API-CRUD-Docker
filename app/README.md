@@ -1,1 +1,1 @@
-Simple FLASK API managing Employees and their Taska
+Simple FLASK API managing Employees and their Tasks
