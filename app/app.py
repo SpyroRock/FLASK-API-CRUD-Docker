@@ -87,6 +87,17 @@ def update():
  
 @app.route('/delete/<id>/', methods = ['GET', 'POST'])
 def delete(id):
+
+    id = int(id)
+    print(id)
+    ids = [ide[0] for ide in Task.query.with_entities(Task.employee_id).all()]
+    for id_value in ids:
+        id_value = int(id_value)
+        print(id_value)
+        if id == id_value:
+            flash("You are not able to delete this Employee. You have to delete the Task first!")
+            return redirect(url_for('Index'))
+
     my_data = Data.query.get(id)
     db.session.delete(my_data)
     db.session.commit()
@@ -104,24 +115,23 @@ def Index_tasks():
 def insert_task():
     if request.method == 'POST':
 
+        ids = [id[0] for id in Data.query.with_entities(Data.id).all()]
+    
         text = request.form['text']
         completed = request.form['completed']
         employee_id = request.form['employee_id']
-        my_data = Data.query.get(request.form.get('id'))
+        employee_id = int(employee_id)
 
-        ids = [id[0] for id in Data.query.with_entities(Data.id).all()]
-
-        for id_values in ids:
-            if employee_id != id_values:
-                flash("Employee ID not found. You are not able to insert this Task")
+        for id_value in ids:
+            id_value = int(id_value)
+            if employee_id == id_value:
+                my_data = Task(text, completed, employee_id)
+                db.session.add(my_data)
+                db.session.commit()
+                flash("Task Inserted Successfully")
                 return redirect(url_for('Index_tasks'))
-        
-        my_data = Task(text, completed, employee_id)
-        db.session.add(my_data)
-        db.session.commit()
- 
-        flash("Task Inserted Successfully")
- 
+            
+        flash("Employee ID not found. You are not able to insert this Task!")
         return redirect(url_for('Index_tasks'))
 
 @app.route('/update_task', methods = ['GET', 'POST'])
@@ -140,6 +150,7 @@ def update_task():
 
 @app.route('/delete_task/<id>/', methods = ['GET', 'POST'])
 def delete_task(id):
+
     my_data = Task.query.get(id)
     db.session.delete(my_data)
     db.session.commit()
