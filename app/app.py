@@ -89,7 +89,6 @@ def update():
 def delete(id):
 
     id = int(id)
-    print(id)
     ids = [ide[0] for ide in Task.query.with_entities(Task.employee_id).all()]
     for id_value in ids:
         id_value = int(id_value)
