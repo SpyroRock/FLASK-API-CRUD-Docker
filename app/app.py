@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask.globals import session
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -102,11 +103,19 @@ def Index_tasks():
 @app.route('/insert_tasks', methods = ['POST'])
 def insert_task():
     if request.method == 'POST':
- 
+
         text = request.form['text']
         completed = request.form['completed']
         employee_id = request.form['employee_id']
- 
+        my_data = Data.query.get(request.form.get('id'))
+
+        ids = [id[0] for id in Data.query.with_entities(Data.id).all()]
+
+        for id_values in ids:
+            if employee_id != id_values:
+                flash("Employee ID not found. You are not able to insert this Task")
+                return redirect(url_for('Index_tasks'))
+        
         my_data = Task(text, completed, employee_id)
         db.session.add(my_data)
         db.session.commit()
