@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Tasks</th>
         </tr>
 
         {% for row in employees %}  <!-- Retrieveing all the data from the database -->
@@ -22,6 +23,7 @@
             <td>{{row.name}}</td>
             <td>{{row.email}}</td>
             <td>{{row.phone}}</td>
+            <td>{{row.todos}}</td>
         </tr>
         {% endfor %} <!-- Retrieving all data from the database -->
 
